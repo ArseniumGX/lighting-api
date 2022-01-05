@@ -12,7 +12,7 @@ datasource db {
 
 model User {
   id        String   @id @default(uuid())
-  fullName  String?
+  fullname  String?
   birthdate String?
   nickname  String   @unique
   imageUrl  String?
@@ -21,6 +21,8 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   books     Book[]
+
+
 }
 
 model Book {
@@ -45,18 +47,18 @@ model Book {
 
 model Author {
   id    String @id @default(uuid())
-  name  String
+  name  String @unique
   books Book[]
 }
 
 model Genres {
   id    String @id @default(uuid())
-  name  String
+  name  String @unique
   books Book[]
 }
 
 model Publisher {
   id    String @id @default(uuid())
-  name  String
+  name  String @unique
   books Book[]
 }
