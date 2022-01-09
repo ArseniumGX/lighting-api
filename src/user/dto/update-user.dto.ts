@@ -6,9 +6,8 @@ import {
   IsUrl,
   Length
 } from 'class-validator';
-import { User } from '../entities/user.entity';
 
-export class UpdateUserDto extends User {
+export class UpdateUserDto {
   /**
    * Nome completo do usuário. Campo Opcional
    *

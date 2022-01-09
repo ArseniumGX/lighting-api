@@ -15,12 +15,6 @@ export class UserService {
   constructor(private readonly prisma: PrismaService) {}
 
   async create(data: CreateUserDto): Promise<User> {
-    const nicknameExists = await this.prisma.user.findUnique({
-      where: { nickname: data.nickname }
-    });
-
-    if (nicknameExists) throw new ConflictException('Nickname already exists');
-
     const emailExists = await this.prisma.user.findUnique({
       where: { email: data.email }
     });
@@ -84,5 +78,13 @@ export class UserService {
     });
 
     return { message: 'User was deleted successful' };
+  }
+
+  async findByEmail(email: string): Promise<boolean> {
+    const emailExists = await this.prisma.user.findUnique({
+      where: { email }
+    });
+
+    return emailExists ? true : false;
   }
 }

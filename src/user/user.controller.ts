@@ -5,7 +5,8 @@ import {
   Get,
   Param,
   Patch,
-  Post
+  Post,
+  Query
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { User } from '@prisma/client';
@@ -36,5 +37,10 @@ export class UserController {
   @Delete(':id')
   delete(@Param('id') id: string): Promise<{ message: string }> {
     return this.userService.delete(id);
+  }
+
+  @Get()
+  findByEmail(@Query('email') email: string) {
+    return this.userService.findByEmail(email);
   }
 }

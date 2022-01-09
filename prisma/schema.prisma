@@ -12,10 +12,11 @@ datasource db {
 
 model User {
   id        String   @id @default(uuid())
-  fullname  String?
-  birthdate String?
-  nickname  String   @unique
-  imageUrl  String?
+  name      String
+  avatar    String?
+  birthdate String
+  gender    String
+  phone     String
   email     String   @unique
   password  String
   createdAt DateTime @default(now())
@@ -26,23 +27,16 @@ model User {
 model Book {
   id        String   @id @default(uuid())
   title     String
-  resume    String?
+  synopsis  String
+  cover     String
+  author    String
+  publisher String
   year      Int
-  pages     Int?
-  edition   Int?
-  author    String?
-  publisher String?
-  value     Float
-  genres    Genres[]
-  users     User[]
+  pages     Int
+  price     Float
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  users     User[]
 
-  @@unique([title, year])
-}
-
-model Genres {
-  id    String @id @default(uuid())
-  name  String @unique
-  books Book[]
+  @@unique([title, publisher])
 }

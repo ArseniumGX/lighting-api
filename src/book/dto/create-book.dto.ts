@@ -9,14 +9,13 @@ import {
   Length,
   ValidateNested
 } from 'class-validator';
-import { CreateGenreDto } from 'src/genre/dto/create-genre.dto';
 import { Book } from '../entities/book.entity';
 
 export class CreateBookDto extends Book {
   /**
    * Description
    *
-   * @example 'Twilight'
+   * @example 'Crepusculo'
    */
   @IsString()
   @IsNotEmpty()
@@ -26,7 +25,7 @@ export class CreateBookDto extends Book {
   /**
    * Description
    *
-   * @example 'Twilight'
+   * @example 'É uma historia de uma prjeto de vampiro que se apixona e treta com um lobo enquanto os xmen ficam de olho nele'
    */
   @IsString()
   @IsNotEmpty()
@@ -36,7 +35,7 @@ export class CreateBookDto extends Book {
   /**
    * Description
    *
-   * @example 'Twilight'
+   * @example 2008
    */
   @IsInt()
   @IsNotEmpty()
@@ -45,7 +44,7 @@ export class CreateBookDto extends Book {
   /**
    * Description
    *
-   * @example 'Twilight'
+   * @example 432
    */
   @IsInt()
   @IsNotEmpty()
@@ -55,7 +54,7 @@ export class CreateBookDto extends Book {
   /**
    * Description
    *
-   * @example 'Twilight'
+   * @example 1ª
    */
   @IsInt()
   @IsNotEmpty()
@@ -65,7 +64,7 @@ export class CreateBookDto extends Book {
   /**
    * Description
    *
-   * @example 'Twilight'
+   * @example Stephanie Meyer
    */
   @IsString()
   @IsNotEmpty()
@@ -75,7 +74,7 @@ export class CreateBookDto extends Book {
   /**
    * Description
    *
-   * @example 'Twilight'
+   * @example 'Sei la'
    */
   @IsString()
   @IsNotEmpty()
@@ -85,20 +84,9 @@ export class CreateBookDto extends Book {
   /**
    * Description
    *
-   * @example 'Twilight'
+   * @example 39.90
    */
   @IsNumber()
   @IsNotEmpty()
   value: number;
-
-  /**
-   * Description
-   *
-   * @example 'Twilight'
-   */
-  @ValidateNested({ each: true })
-  @Type(() => CreateBookDto)
-  @IsArray()
-  @IsOptional()
-  genres?: CreateGenreDto[];
 }
