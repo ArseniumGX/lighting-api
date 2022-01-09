@@ -20,7 +20,6 @@ async function bootstrap() {
     .setDescription('API de uma loja de livros')
     .addTag('User')
     .addTag('Book')
-    .addTag('Genres')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
