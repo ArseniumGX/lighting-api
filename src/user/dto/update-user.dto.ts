@@ -2,14 +2,16 @@ import {
   IsDateString,
   IsNotEmpty,
   IsOptional,
+  IsPhoneNumber,
   IsString,
   IsUrl,
   Length
 } from 'class-validator';
+import { User } from '../entities/User.entity';
 
-export class UpdateUserDto {
+export class UpdateUserDto extends User {
   /**
-   * Nome completo do usuário. Campo Opcional
+   * Nome do usuário
    *
    * @example 'João da Neve'
    */
@@ -17,10 +19,21 @@ export class UpdateUserDto {
   @IsOptional()
   @IsNotEmpty()
   @Length(2, 50)
-  fullname?: string;
+  name?: string;
 
   /**
-   * Data de nascimento do usuário no formato 'YYYY-MM-DD'. Campo opcional
+   * Avatar image url do usuário.
+   *
+   * @example https://image.com/user.jpg
+   */
+  @IsString()
+  @IsOptional()
+  @IsNotEmpty()
+  @IsUrl()
+  avatar?: string;
+
+  /**
+   * Data de nascimento do usuário no formato 'YYYY-MM-DD'
    *
    * @example '2012-12-21
    */
@@ -32,13 +45,23 @@ export class UpdateUserDto {
   birthdate?: string;
 
   /**
-   * Imagem para perfil do usuário. Campo Opcional
+   * Genero do usuário. 'masculino' ou 'feminino
    *
-   * @example 'https://i0.wp.com/www.repol.copl.ulaval.ca/wp-content/uploads/2019/01/default-user-icon.jpg'
+   * @example masculino | feminino
+   */
+  @IsString()
+  @IsNotEmpty()
+  @Length(5, 20)
+  gender?: 'Masculino' | 'Feminino';
+
+  /**
+   * Número de contato perfil do usuário
+   *
+   * @example '43 99999-9999'
    */
   @IsString()
   @IsOptional()
   @IsNotEmpty()
-  @IsUrl()
-  imageUrl?: string;
+  @IsPhoneNumber('BR')
+  phone?: string;
 }

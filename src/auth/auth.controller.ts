@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { AuthResponse, CredentialsDto } from './dto/AuthDto';
+import { AuthResponse, CredentialsDto } from './dto/auth.dto';
 import { AuthUser } from './auth-user.decorator';
 import { User } from '@prisma/client';
 import { AuthGuard } from '@nestjs/passport';

@@ -8,21 +8,23 @@ async function bootstrap() {
 
   app.enableCors();
 
-  app.useGlobalPipes(
-    new ValidationPipe({
-      transform: true,
-      whitelist: false
-    })
-  );
-
   const config = new DocumentBuilder()
     .setTitle('Book Store')
     .setDescription('API de uma loja de livros')
+    .addBearerAuth()
+    .addTag('Auth')
     .addTag('User')
     .addTag('Book')
     .build();
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document);
+  SwaggerModule.setup('/', app, document);
+
+  app.useGlobalPipes(
+    new ValidationPipe({
+      transform: true,
+      whitelist: true
+    })
+  );
 
   await app.listen(process.env.PORT || 3001);
 }

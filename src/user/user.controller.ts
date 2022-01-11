@@ -2,11 +2,9 @@ import {
   Body,
   Controller,
   Delete,
-  Get,
   Param,
   Patch,
   Post,
-  Query,
   UseGuards
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';

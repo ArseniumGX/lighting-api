@@ -1,10 +1,7 @@
-import { ApiOperation, ApiProperty } from '@nestjs/swagger';
 import { User } from '@prisma/client';
 import {
-  IsBoolean,
   IsEmail,
   IsNotEmpty,
-  IsNumber,
   IsObject,
   IsString,
   Length
@@ -12,7 +9,7 @@ import {
 
 export class CredentialsDto {
   /**
-   * aslkdalksm
+   * Email valido para o usuário
    *
    * @example example@email.com
    */
@@ -22,7 +19,7 @@ export class CredentialsDto {
   email: string;
 
   /**
-   * alkalksd
+   * Senha do usuário cadastrado
    *
    * @example 'senha123'
    */
@@ -34,43 +31,18 @@ export class CredentialsDto {
 
 export class AuthResponse {
   /**
-   * Return token
+   * Token for user authenticate
+   *
+   * @returns
    */
   @IsString()
   token: string;
 
   /**
    * Return an object type User
+   *
+   * @returns
    */
   @IsObject()
   user: User;
-}
-
-export class Tester {
-  /**
-   * banana
-   *
-   * @example abacate
-   */
-  @ApiProperty()
-  @IsString()
-  abacate: string;
-
-  /**
-   * banana
-   *
-   * @example 12
-   */
-  @ApiProperty()
-  @IsNumber()
-  babana: number;
-
-  /**
-   * cabrito
-   *
-   * @example true
-   */
-  @ApiProperty()
-  @IsBoolean()
-  cabitro: boolean;
 }
