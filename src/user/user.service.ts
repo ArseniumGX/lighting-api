@@ -15,16 +15,12 @@ export class UserService {
   constructor(private readonly prisma: PrismaService) {}
 
   async create(data: CreateUserDto): Promise<User> {
-    const emailExists = await this.prisma.user.findUnique({
-      where: { email: data.email }
-    });
+    const emailExists = await this.findByEmail(data.email);
 
-    if (emailExists) throw new ConflictException('Email already exists');
+    if (emailExists) throw new ConflictException('User already exists');
 
     if (data.password !== data.passwordConfirm)
-      throw new NotAcceptableException(
-        "Password and password confirmation don't match"
-      );
+      throw new NotAcceptableException("Passwords don't match");
 
     delete data.passwordConfirm;
 
@@ -37,22 +33,16 @@ export class UserService {
     return user;
   }
 
-  async findOne(id: string): Promise<User> {
+  async findOne(id: string): Promise<boolean> {
     const user = await this.prisma.user.findUnique({
       where: { id }
     });
 
-    if (!user) throw new NotFoundException('User not found');
-
-    delete user.password;
-
-    return user;
+    return user ? true : false;
   }
 
   async update(id: string, data: UpdateUserDto): Promise<User> {
-    const userExists = await this.prisma.user.findUnique({
-      where: { id }
-    });
+    const userExists = await this.findOne(id);
 
     if (!userExists) throw new NotFoundException('User not found');
 
@@ -67,9 +57,7 @@ export class UserService {
   }
 
   async delete(id: string): Promise<{ message: string }> {
-    const userExists = await this.prisma.user.findUnique({
-      where: { id }
-    });
+    const userExists = await this.findOne(id);
 
     if (!userExists) throw new NotFoundException('User not found');
 
@@ -77,7 +65,7 @@ export class UserService {
       where: { id }
     });
 
-    return { message: 'User was deleted successful' };
+    return { message: 'User was successfully deleted' };
   }
 
   async findByEmail(email: string): Promise<boolean> {
@@ -86,5 +74,44 @@ export class UserService {
     });
 
     return emailExists ? true : false;
+  }
+
+  async toggleBook(user: User, bookId: string): Promise<void> {
+    const book = await this.prisma.book.findUnique({
+      where: { id: bookId }
+    });
+
+    if (!book) throw new NotFoundException('Book not found');
+
+    const likedBook = await this.prisma.user.findUnique({
+      where: { id: user.id },
+      include: {
+        books: true
+      }
+    });
+
+    const foundBook = likedBook.books.map(({ id }) => {
+      return id === bookId ? true : false;
+    });
+
+    foundBook
+      ? await this.prisma.user.update({
+          where: { id: user.id },
+          data: {
+            books: {
+              disconnect: { id: book.id }
+            }
+          }
+        })
+      : await this.prisma.user.update({
+          where: { id: user.id },
+          data: {
+            books: {
+              connect: { id: book.id }
+            }
+          }
+        });
+
+    return null;
   }
 }

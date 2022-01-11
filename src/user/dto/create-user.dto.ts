@@ -14,13 +14,13 @@ export class CreateUserDto extends User {
   /**
    * Nome do usuário
    *
-   * @example 'João da Neve'
+   * @example 'Fulano de Tal'
    */
   @IsString()
-  // @IsOptional()
+  @IsOptional()
   @IsNotEmpty()
   @Length(2, 50)
-  name: string;
+  name?: string;
 
   /**
    * Avatar image url do usuário.
@@ -39,11 +39,11 @@ export class CreateUserDto extends User {
    * @example '2012-12-21
    */
   @IsString()
-  // @IsOptional()
+  @IsOptional()
   @IsNotEmpty()
   @Length(2, 50)
   @IsDateString()
-  birthdate: string;
+  birthdate?: string;
 
   /**
    * Genero do usuário. 'masculino' ou 'feminino
@@ -53,7 +53,7 @@ export class CreateUserDto extends User {
   @IsString()
   @IsNotEmpty()
   @Length(5, 20)
-  gender: 'masculino' | 'feminino';
+  gender?: 'Masculino' | 'Feminino';
 
   /**
    * Número de contato perfil do usuário
@@ -61,10 +61,10 @@ export class CreateUserDto extends User {
    * @example '43 99999-9999'
    */
   @IsString()
-  // @IsOptional()
+  @IsOptional()
   @IsNotEmpty()
   @IsPhoneNumber('BR')
-  phone: string;
+  phone?: string;
 
   /**
    * Email válido do usuário.

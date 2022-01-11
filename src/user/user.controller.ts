@@ -6,13 +6,16 @@ import {
   Param,
   Patch,
   Post,
-  Query
+  Query,
+  UseGuards
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { AuthGuard } from '@nestjs/passport';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { User } from '@prisma/client';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserService } from './user.service';
+import { AuthUser } from '../auth/auth-user.decorator';
 
 @ApiTags('User')
 @Controller('user')
@@ -24,23 +27,24 @@ export class UserController {
     return this.userService.create(data);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string): Promise<User> {
-    return this.userService.findOne(id);
-  }
-
   @Patch(':id')
+  @UseGuards(AuthGuard())
+  @ApiBearerAuth()
   update(@Param('id') id: string, @Body() data: UpdateUserDto): Promise<User> {
     return this.userService.update(id, data);
   }
 
   @Delete(':id')
+  @UseGuards(AuthGuard())
+  @ApiBearerAuth()
   delete(@Param('id') id: string): Promise<{ message: string }> {
     return this.userService.delete(id);
   }
 
-  @Get()
-  findByEmail(@Query('email') email: string) {
-    return this.userService.findByEmail(email);
+  @Patch('toggle-book/:id')
+  @UseGuards(AuthGuard())
+  @ApiBearerAuth()
+  toggleBook(@AuthUser() user: User, @Param(':id') bookId: string) {
+    return this.userService.toggleBook(user, bookId);
   }
 }
