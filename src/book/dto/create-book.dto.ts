@@ -1,21 +1,19 @@
 import { Type } from 'class-transformer';
 import {
-  IsArray,
   IsInt,
   IsNotEmpty,
   IsNumber,
-  IsOptional,
   IsString,
-  Length,
-  ValidateNested
+  IsUrl,
+  Length
 } from 'class-validator';
 import { Book } from '../entities/book.entity';
 
 export class CreateBookDto extends Book {
   /**
-   * Description
+   * Título do livro
    *
-   * @example 'Crepusculo'
+   * @example Livro Sem Nome
    */
   @IsString()
   @IsNotEmpty()
@@ -23,70 +21,66 @@ export class CreateBookDto extends Book {
   title: string;
 
   /**
-   * Description
+   * sinopse ou resumo do livro
    *
-   * @example 'É uma historia de uma prjeto de vampiro que se apixona e treta com um lobo enquanto os xmen ficam de olho nele'
+   * @example Este é o projeto de um livro fictício criado para exemplificar esse projeto
    */
   @IsString()
   @IsNotEmpty()
-  @IsOptional()
-  resume?: string | null;
+  synopsis: string;
 
   /**
-   * Description
+   * Url da capa do livro
    *
-   * @example 2008
+   * @example http://biblioteca.com/livro.png
+   */
+  @IsString()
+  @IsUrl()
+  @IsNotEmpty()
+  cover: string;
+
+  /**
+   * Autor(a) do livro
+   *
+   * @example João da Neve
+   */
+  @IsString()
+  @IsNotEmpty()
+  author: string;
+
+  /**
+   * Editora do livro
+   *
+   * @example 'ABC'
+   */
+  @IsString()
+  @IsNotEmpty()
+  publisher: string;
+
+  /**
+   * Ano do livro
+   *
+   * @example 2021
    */
   @IsInt()
   @IsNotEmpty()
   year: number;
 
   /**
-   * Description
+   * Número total de páginas do livro
    *
    * @example 432
    */
   @IsInt()
   @IsNotEmpty()
-  @IsOptional()
-  pages?: number | null;
+  pages: number;
 
   /**
-   * Description
-   *
-   * @example 1ª
-   */
-  @IsInt()
-  @IsNotEmpty()
-  @IsOptional()
-  edition?: number | null;
-
-  /**
-   * Description
-   *
-   * @example Stephanie Meyer
-   */
-  @IsString()
-  @IsNotEmpty()
-  @IsOptional()
-  author?: string | null;
-
-  /**
-   * Description
-   *
-   * @example 'Sei la'
-   */
-  @IsString()
-  @IsNotEmpty()
-  @IsOptional()
-  publisher?: string | null;
-
-  /**
-   * Description
+   * Preço do livro
    *
    * @example 39.90
    */
   @IsNumber()
   @IsNotEmpty()
-  value: number;
+  price: number;
 }

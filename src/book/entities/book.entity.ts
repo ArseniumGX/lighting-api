@@ -1,16 +1,10 @@
 export class Book {
   title: string;
-
-  resume?: string;
-
+  synopsis: string;
+  cover: string;
+  author: string;
+  publisher: string;
   year: number;
-
-  pages?: number;
-
-  edition?: number;
-  author?: string;
-
-  publisher?: string;
-
-  value: number;
+  pages: number;
+  price: number;
 }
