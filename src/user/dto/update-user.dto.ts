@@ -51,6 +51,7 @@ export class UpdateUserDto extends User {
    */
   @IsString()
   @IsNotEmpty()
+  @IsOptional()
   @Length(5, 20)
   gender?: 'Masculino' | 'Feminino';
 

@@ -83,18 +83,21 @@ export class UserService {
 
     if (!book) throw new NotFoundException('Book not found');
 
-    const likedBook = await this.prisma.user.findUnique({
+    const { books } = await this.prisma.user.findUnique({
       where: { id: user.id },
       include: {
         books: true
       }
     });
 
-    const foundBook = likedBook.books.map(({ id }) => {
-      return id === bookId ? true : false;
+    let match = false;
+
+    books.forEach((item) => {
+      if (item.id === bookId) match = true;
+      else match = false;
     });
 
-    foundBook
+    match
       ? await this.prisma.user.update({
           where: { id: user.id },
           data: {
@@ -113,5 +116,14 @@ export class UserService {
         });
 
     return null;
+  }
+
+  async bookshelf(user: User) {
+    const listUser = await this.prisma.user.findUnique({
+      where: { id: user.id },
+      include: { books: true }
+    });
+
+    return listUser.books;
   }
 }

@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Delete,
+  Get,
   Param,
   Patch,
   Post,
@@ -39,10 +40,17 @@ export class UserController {
     return this.userService.delete(id);
   }
 
+  @Get('bookshelf')
+  @UseGuards(AuthGuard())
+  @ApiBearerAuth()
+  bookshelf(@AuthUser() user: User) {
+    return this.userService.bookshelf(user);
+  }
+
   @Patch('toggle-book/:id')
   @UseGuards(AuthGuard())
   @ApiBearerAuth()
-  toggleBook(@AuthUser() user: User, @Param(':id') bookId: string) {
+  toggleBook(@AuthUser() user: User, @Param('id') bookId: string) {
     return this.userService.toggleBook(user, bookId);
   }
 }
